@@ -17,7 +17,7 @@ public class DeepSeekConnectionTest {
 
         String response = chatClient
                 .prompt()
-                .user("你好，给我发点有趣的表情")
+                .user("唱跳rap，之后是什么，两个字")
                 .call()
                 .content();
 
