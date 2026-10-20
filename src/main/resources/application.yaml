@@ -6,5 +6,8 @@ spring:
       api-key: ${DEEPSEEK_API_KEY}
       base-url: https://api.deepseek.com
       chat:
-        options:
-          model: deepseek-flash
+        model: deepseek-flash
+      embedding:
+        base-url: https://llm-api.net/v1
+        api-key: ${EMBEDDING_API_KEY}
+        model: text-embedding-3-small
