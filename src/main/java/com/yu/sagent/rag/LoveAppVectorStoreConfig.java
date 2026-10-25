@@ -7,6 +7,7 @@ import org.springframework.ai.vectorstore.SimpleVectorStore;
 
 
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,12 +22,13 @@ public class LoveAppVectorStoreConfig {
     @Resource
     private LoveAppDocumentLoader loveAppDocumentLoader;
 
+    @Autowired VectorStore vectorStore;
+
     @Bean
     VectorStore loveAppVectorStore(EmbeddingModel embeddingModel) {
-        SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(embeddingModel).build();
         List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
-        simpleVectorStore.add(documents);
-        return simpleVectorStore;
+        vectorStore.add(documents);
+        return vectorStore;
 
     }
 

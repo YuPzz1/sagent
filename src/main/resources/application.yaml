@@ -1,6 +1,10 @@
 spring:
   application:
     name: sagent
+  datasource:
+    url: # 公网地址
+    username: # 用户名
+    password: # 密码
   ai:
     openai:
       api-key: ${DEEPSEEK_API_KEY}
@@ -11,5 +15,12 @@ spring:
         base-url: https://llm-api.net/v1
         api-key: ${EMBEDDING_API_KEY}
         model: text-embedding-3-small
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        dimensions: 1536
+        initialize-schema: true # 开启自动建表
+        distance-type: COSINE_DISTANCE
+        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
   profiles:
     active: local
