@@ -11,3 +11,5 @@ spring:
         base-url: https://llm-api.net/v1
         api-key: ${EMBEDDING_API_KEY}
         model: text-embedding-3-small
+  profiles:
+    active: local
