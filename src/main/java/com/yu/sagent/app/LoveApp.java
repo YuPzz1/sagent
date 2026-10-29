@@ -1,6 +1,8 @@
 package com.yu.sagent.app;
 
 import com.yu.sagent.advisor.MyLoggerAdvisor;
+import com.yu.sagent.rag.LoveAppRagCustomAdvisorFactory;
+import com.yu.sagent.rag.QueryRewriter;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -57,6 +59,9 @@ public class LoveApp {
     @Resource
     private VectorStore loveAppVectorStore;
 
+    @Resource
+    private QueryRewriter queryRewriter;
+
     /**
      * 和RAG知识库进行对话
      * @param message
@@ -64,14 +69,19 @@ public class LoveApp {
      * @return
      */
     public String doChatWithRag(String message, String chatId){
+        String rewrittenMessage = queryRewriter.doQueryRewrite(message);
+
         String content = chatClient
                 .prompt()
-                .user(message)
+                .user(rewrittenMessage)
                 .advisors(advisorSpec -> advisorSpec
                         .param(ChatMemory.CONVERSATION_ID, chatId)
                 )
                 .advisors(new MyLoggerAdvisor())
-                .advisors(QuestionAnswerAdvisor.builder(loveAppVectorStore).build())
+//                .advisors(QuestionAnswerAdvisor.builder(loveAppVectorStore).build())
+                .advisors(
+                        LoveAppRagCustomAdvisorFactory.createLoveAppRagCustomAdvisor(loveAppVectorStore, "单身")
+                )
                 .call()
                 .content();
 

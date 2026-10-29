@@ -22,14 +22,19 @@ public class LoveAppVectorStoreConfig {
     @Resource
     private LoveAppDocumentLoader loveAppDocumentLoader;
 
-    @Autowired VectorStore vectorStore;
+    @Autowired
+    private VectorStore vectorStore;
+
+    @Resource
+    private MyKeywordEnricher myKeywordEnricher;
 
     @Bean
     VectorStore loveAppVectorStore(EmbeddingModel embeddingModel) {
-        List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
-        vectorStore.add(documents);
+        // 避免在数据库中插入多条重复数据，先注释掉
+//        List<Document> documents = loveAppDocumentLoader.loadMarkdowns();
+//        List<Document> enrichedDocuments = myKeywordEnricher.enrichDocuments(documents);
+//        vectorStore.add(enrichedDocuments);
         return vectorStore;
-
     }
 
 }

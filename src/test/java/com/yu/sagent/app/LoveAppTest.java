@@ -14,6 +14,6 @@ class LoveAppTest {
 
     @Test
     void doChat() {
-        loveApp.doChatWithRag("我喜欢一个女孩，怎么办", "1");
+        loveApp.doChatWithRag("怎么追女孩", "1");
     }
 }
